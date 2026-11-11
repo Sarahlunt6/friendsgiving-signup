@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Friendsgiving Lunch Sign-Up</title>
+<title>Friendsgiving Food Sign-Up</title>
 <meta name="description" content="Sign up to bring a dish to Friendsgiving lunch on Saturday, November 14.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -18,67 +18,80 @@
 <meta property="og:image:alt" content="Friendsgiving Food Sign-Up above a hand-drawn table set for lunch, with pumpkins">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://friendsgiving-signup-4cck.vercel.app/og-image.png">
-<meta name="theme-color" content="#b5541c">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap">
+<meta name="theme-color" content="#f8f1df">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Ms+Madi&family=Nunito+Sans:wght@400;600;700&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;color-scheme:light}
 body{margin:0}
 [hidden]{display:none!important}
-/* Layout: one warm column like a recipe card — header, then dish groups as lists, then "bring something else" form */
+/* Layout: the invitation as a page. One framed card with a wavy border, hand-lettered title over the table drawing, then the dish list. Single cream-and-rust look on purpose, to match the printed invite. */
 :root{
-  --bg:#fbf7f2; --surface:#ffffff; --fg:#2e2620; --muted:#7a6a5e; --line:#eadfd3;
-  --accent:#b5541c; --accent-ink:#ffffff; --sage:#5c7a4e; --sage-soft:#e8efe2; --chip:#f3e7dc;
-  --display:"Fraunces",Georgia,serif; --body:"Nunito Sans",system-ui,-apple-system,sans-serif;
+  --bg:#f8f1df; --paper:#fbf6e9; --ink:#bc4705; --ink-soft:#d98a5c; --fg:#4a2a14; --muted:#8a6248;
+  --line:#e6cfb0; --tint:#f3e2c8; --on-ink:#fbf6e9;
+  --display:"League Gothic","Oswald","Arial Narrow",sans-serif;
+  --script:"Ms Madi","Brush Script MT",cursive;
+  --body:"Nunito Sans",system-ui,-apple-system,sans-serif;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#1d1916; --surface:#272220; --fg:#f2e9e0; --muted:#b3a294; --line:#3a322c;
-  --accent:#e2834a; --accent-ink:#1d1916; --sage:#a3c28f; --sage-soft:#2b3326; --chip:#352c26; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#1d1916; --surface:#272220; --fg:#f2e9e0; --muted:#b3a294; --line:#3a322c;
-  --accent:#e2834a; --accent-ink:#1d1916; --sage:#a3c28f; --sage-soft:#2b3326; --chip:#352c26; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5}
-.wrap{max-width:680px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:32px}
-header{display:flex;flex-direction:column;gap:8px}
-.eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,48px);line-height:1.05;margin:0;text-wrap:balance}
-.intro{color:var(--muted);margin:0;max-width:60ch}
-.progress{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
-.bar{flex:1;height:8px;border-radius:99px;background:var(--chip);overflow:hidden}
-.bar span{display:block;height:100%;background:var(--sage);width:0;transition:width .3s}
-section h2{font-family:var(--display);font-weight:500;font-size:22px;margin:0 0 8px}
-ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-li{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.page{padding-block:24px 48px;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+.frame{position:relative;max-width:700px;margin:0 auto;padding:56px max(24px,5vw) 56px}
+.frame svg.border{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.content{position:relative;display:flex;flex-direction:column;gap:36px}
+header{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+h1{font-family:var(--display);font-weight:400;color:var(--ink);font-size:clamp(56px,14vw,96px);line-height:.9;letter-spacing:.02em;margin:0;text-transform:uppercase}
+.script{font-family:var(--script);color:var(--ink);font-size:clamp(48px,12vw,80px);line-height:.9;margin:-.12em 0 0 .6em;-webkit-text-stroke:.6px var(--ink)}
+.scene{width:min(100%,420px);height:auto;margin:14px 0 4px}
+.when{font-family:var(--display);color:var(--ink);font-size:clamp(28px,7vw,40px);letter-spacing:.03em;line-height:1;text-transform:uppercase}
+.intro{color:var(--muted);margin:6px 0 0;max-width:46ch}
+.progress{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums;width:100%;max-width:420px;margin-top:14px}
+.bar{flex:1;height:8px;border-radius:99px;background:var(--tint);border:1px solid var(--line);overflow:hidden}
+.bar span{display:block;height:100%;background:var(--ink);width:0;transition:width .3s}
+#list{display:flex;flex-direction:column;gap:28px}
+section h2{font-family:var(--display);font-weight:400;color:var(--ink);font-size:32px;letter-spacing:.04em;line-height:1;text-transform:uppercase;margin:0 0 6px}
+ul{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--ink)}
+li{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 0;border-bottom:1px dashed var(--ink-soft)}
 .item{flex:1 1 200px;min-width:0}
-.item b{font-weight:600}
+.item b{font-weight:700}
 .item small{display:block;color:var(--muted);font-size:13px}
-.who{display:inline-flex;align-items:center;gap:6px;background:var(--sage-soft);color:var(--sage);font-weight:700;font-size:14px;padding:4px 10px;border-radius:99px}
-.extra{font-size:12px;color:var(--muted);background:var(--chip);padding:2px 8px;border-radius:99px;margin-left:6px;font-weight:600}
-button{font:inherit;font-weight:700;font-size:14px;border-radius:99px;padding:7px 16px;cursor:pointer;border:1.5px solid var(--accent);background:transparent;color:var(--accent)}
-button.primary{background:var(--accent);color:var(--accent-ink)}
-button.link{border:none;padding:4px 6px;color:var(--muted);font-weight:600;text-decoration:underline}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.who{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--ink);color:var(--ink);font-weight:700;font-size:14px;padding:3px 12px;border-radius:99px;background:var(--paper)}
+.claimed{display:inline-flex;align-items:center;gap:6px;margin-left:auto;white-space:nowrap;max-width:100%}
+.claimed .who{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.extra{font-size:12px;color:var(--muted);background:var(--tint);padding:2px 8px;border-radius:99px;margin-left:6px;font-weight:600}
+button{font:inherit;font-weight:700;font-size:14px;border-radius:99px;padding:7px 18px;cursor:pointer;border:1.5px solid var(--ink);background:transparent;color:var(--ink)}
+button:hover{background:var(--tint)}
+button.primary{background:var(--ink);color:var(--on-ink)}
+button.primary:hover{background:#a33d04}
+button.link{border:none;padding:4px 6px;color:var(--muted);font-weight:600;text-decoration:underline;background:none}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 button:disabled{opacity:.5;cursor:default}
 .claim{display:flex;gap:8px;flex:1 1 100%;flex-wrap:wrap}
-input,select{font:inherit;font-size:15px;color:var(--fg);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;min-width:0}
+input,select{font:inherit;font-size:16px;color:var(--fg);background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;min-width:0}
+input::placeholder{color:#a88a73}
 .claim input{flex:1 1 160px}
-.add{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px}
-.add h2{margin:0}
+.add{border:1.5px solid var(--ink);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:12px;background:var(--paper)}
+.add h2{margin:0;font-family:var(--script);font-weight:400;color:var(--ink);font-size:48px;line-height:1;-webkit-text-stroke:.5px var(--ink);text-transform:none;letter-spacing:0}
 .add p{margin:0;color:var(--muted);font-size:14px}
 .row{display:flex;gap:10px;flex-wrap:wrap}
 .row>*{flex:1 1 180px}
 .row button{flex:0 0 auto}
-.status{font-size:14px;color:var(--muted);text-align:center;padding:24px;border:1.5px dashed var(--line);border-radius:16px}
-.note{font-size:13px;color:var(--muted);text-align:center}
+.status{font-size:14px;color:var(--muted);text-align:center;padding:24px;border:1.5px dashed var(--ink-soft);border-radius:16px}
+.note{font-size:13px;color:var(--muted);text-align:center;margin:0}
+@media (max-width:480px){.frame{padding:44px 20px}}
 @media (prefers-reduced-motion:reduce){.bar span{transition:none}}
 </style>
 </head>
 <body>
 
-<div class="wrap">
+<div class="page">
+<div class="frame" id="frame">
+  <svg class="border" id="border" aria-hidden="true"><path fill="none" stroke="#bc4705" stroke-width="3.5" stroke-linejoin="round"/></svg>
+  <div class="content">
   <header>
-    <div class="eyebrow">Saturday, November 14 · Lunch</div>
-    <h1>Friendsgiving Lunch</h1>
+    <h1>Friendsgiving</h1>
+    <div class="script">Food Sign-Up</div>
+    <img class="scene" src="/table-scene.png" width="840" height="471" alt="Hand-drawn table set for lunch with candles, flowers and pumpkins">
+    <div class="when">November 14 | at 1:00 PM</div>
     <p class="intro">Grab a dish from the list below, or add something else you're bringing.</p>
     <div class="progress" id="progress" hidden><div class="bar"><span id="barFill"></span></div><span id="progressText"></span></div>
   </header>
@@ -98,6 +111,8 @@ input,select{font:inherit;font-size:15px;color:var(--fg);background:var(--surfac
     </div>
   </form>
   <p class="note" id="note" hidden></p>
+  </div>
+</div>
 </div>
 
 <script>
@@ -131,9 +146,9 @@ function render(){
       if(it.custom){const x=document.createElement("span");x.className="extra";x.textContent="added";d.appendChild(x)}
       li.appendChild(d);
       if(it.claimedBy){
-        const w=document.createElement("span");w.className="who";w.textContent="✓ "+it.claimedBy;li.appendChild(w);
+        const grp=document.createElement("span");grp.className="claimed";const w=document.createElement("span");w.className="who";w.textContent="✓ "+it.claimedBy;grp.appendChild(w);li.appendChild(grp);
         const u=document.createElement("button");u.className="link";u.type="button";u.textContent=it.custom?"Remove":"Undo";
-        u.onclick=()=>send(it.custom?{action:"remove",id:it.id}:{action:"unclaim",id:it.id});li.appendChild(u);
+        u.onclick=()=>send(it.custom?{action:"remove",id:it.id}:{action:"unclaim",id:it.id});grp.appendChild(u);
       }else if(openClaim===it.id){
         const f=document.createElement("form");f.className="claim";
         const inp=document.createElement("input");inp.id="claim-"+it.id;inp.placeholder="Your name";inp.maxLength=40;inp.required=true;inp.value=savedName();inp.setAttribute("aria-label","Your name for "+it.name);
@@ -184,6 +199,21 @@ $("addForm").addEventListener("submit",async e=>{
   if(!$("note").textContent)$("newItem").value="";
   $("addBtn").disabled=false;
 });
+
+// Wavy border like the invitation, redrawn to fit the card at any size
+(function(){
+  const frame=document.getElementById("frame"),path=document.querySelector("#border path");
+  function draw(){
+    const w=frame.clientWidth,h=frame.clientHeight,m=8,amp=window.innerWidth<480?4.5:6,wl=window.innerWidth<480?30:40;
+    const pts=[];
+    function side(ax,ay,bx,by){const L=Math.hypot(bx-ax,by-ay),n=Math.max(1,Math.round(L/wl)),steps=n*12,nx=(by-ay)/L,ny=-(bx-ax)/L;
+      for(let i=0;i<steps;i++){const t=i/steps,d=amp*Math.sin(t*n*2*Math.PI);pts.push((ax+(bx-ax)*t+nx*d).toFixed(1)+" "+(ay+(by-ay)*t+ny*d).toFixed(1))}}
+    side(m,m,w-m,m);side(w-m,m,w-m,h-m);side(w-m,h-m,m,h-m);side(m,h-m,m,m);
+    path.setAttribute("d","M"+pts.join(" L")+" Z");
+  }
+  draw();
+  if(window.ResizeObserver)new ResizeObserver(draw).observe(frame);else window.addEventListener("resize",draw);
+})();
 
 refresh();
 setInterval(()=>{if(!document.hidden)refresh()},4000);
