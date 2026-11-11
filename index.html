@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Friendsgiving Lunch Sign-Up</title>
+<meta name="description" content="Sign up to bring a dish to Friendsgiving lunch on Saturday, November 14.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+[hidden]{display:none!important}
+/* Layout: one warm column like a recipe card — header, then dish groups as lists, then "bring something else" form */
+:root{
+  --bg:#fbf7f2; --surface:#ffffff; --fg:#2e2620; --muted:#7a6a5e; --line:#eadfd3;
+  --accent:#b5541c; --accent-ink:#ffffff; --sage:#5c7a4e; --sage-soft:#e8efe2; --chip:#f3e7dc;
+  --display:"Fraunces",Georgia,serif; --body:"Nunito Sans",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1d1916; --surface:#272220; --fg:#f2e9e0; --muted:#b3a294; --line:#3a322c;
+  --accent:#e2834a; --accent-ink:#1d1916; --sage:#a3c28f; --sage-soft:#2b3326; --chip:#352c26; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1d1916; --surface:#272220; --fg:#f2e9e0; --muted:#b3a294; --line:#3a322c;
+  --accent:#e2834a; --accent-ink:#1d1916; --sage:#a3c28f; --sage-soft:#2b3326; --chip:#352c26; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:680px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:32px}
+header{display:flex;flex-direction:column;gap:8px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,48px);line-height:1.05;margin:0;text-wrap:balance}
+.intro{color:var(--muted);margin:0;max-width:60ch}
+.progress{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{flex:1;height:8px;border-radius:99px;background:var(--chip);overflow:hidden}
+.bar span{display:block;height:100%;background:var(--sage);width:0;transition:width .3s}
+section h2{font-family:var(--display);font-weight:500;font-size:22px;margin:0 0 8px}
+ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+li{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.item{flex:1 1 200px;min-width:0}
+.item b{font-weight:600}
+.item small{display:block;color:var(--muted);font-size:13px}
+.who{display:inline-flex;align-items:center;gap:6px;background:var(--sage-soft);color:var(--sage);font-weight:700;font-size:14px;padding:4px 10px;border-radius:99px}
+.extra{font-size:12px;color:var(--muted);background:var(--chip);padding:2px 8px;border-radius:99px;margin-left:6px;font-weight:600}
+button{font:inherit;font-weight:700;font-size:14px;border-radius:99px;padding:7px 16px;cursor:pointer;border:1.5px solid var(--accent);background:transparent;color:var(--accent)}
+button.primary{background:var(--accent);color:var(--accent-ink)}
+button.link{border:none;padding:4px 6px;color:var(--muted);font-weight:600;text-decoration:underline}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button:disabled{opacity:.5;cursor:default}
+.claim{display:flex;gap:8px;flex:1 1 100%;flex-wrap:wrap}
+input,select{font:inherit;font-size:15px;color:var(--fg);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;min-width:0}
+.claim input{flex:1 1 160px}
+.add{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.add h2{margin:0}
+.add p{margin:0;color:var(--muted);font-size:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1 1 180px}
+.row button{flex:0 0 auto}
+.status{font-size:14px;color:var(--muted);text-align:center;padding:24px;border:1.5px dashed var(--line);border-radius:16px}
+.note{font-size:13px;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Saturday, November 14 · Lunch</div>
+    <h1>Friendsgiving Lunch</h1>
+    <p class="intro">Grab a dish from the list below, or add something else you're bringing. Put your name on it so we don't end up with five pies and no rolls.</p>
+    <div class="progress" id="progress" hidden><div class="bar"><span id="barFill"></span></div><span id="progressText"></span></div>
+  </header>
+
+  <div id="list"><div class="status" id="status">Loading the menu…</div></div>
+
+  <form class="add" id="addForm">
+    <h2>Bringing something else?</h2>
+    <p>Add it here so everyone knows it's covered.</p>
+    <div class="row">
+      <input id="newItem" placeholder="What are you bringing?" aria-label="What are you bringing" required maxlength="80">
+      <select id="newCat" aria-label="Category"></select>
+    </div>
+    <div class="row">
+      <input id="newName" placeholder="Your name" aria-label="Your name" required maxlength="40">
+      <button class="primary" type="submit" id="addBtn">Add to the list</button>
+    </div>
+  </form>
+  <p class="note" id="note" hidden></p>
+</div>
+
+<script>
+const CATS=["Main","Sides","Bread","Salads","Desserts","Drinks","Supplies","Other"];
+const $=id=>document.getElementById(id);
+const catSel=$("newCat");
+CATS.forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;catSel.appendChild(o)});
+catSel.value="Other";
+let items=[], loaded=false, openClaim=null, busy=false;
+try{const n=localStorage.getItem("fg_name");if(n)$("newName").value=n}catch(e){}
+function savedName(){try{return localStorage.getItem("fg_name")||""}catch(e){return ""}}
+function remember(n){try{localStorage.setItem("fg_name",n)}catch(e){}}
+function showNote(t){const n=$("note");n.textContent=t;n.hidden=!t}
+
+function render(){
+  const list=$("list");list.textContent="";
+  if(!items.length){const s=document.createElement("div");s.className="status";s.textContent=loaded?"Nothing on the menu yet. Add the first dish with the form below.":"Loading the menu…";list.appendChild(s);$("progress").hidden=true;return}
+  const claimed=items.filter(i=>i.claimedBy).length;
+  $("progress").hidden=false;$("barFill").style.width=(claimed/items.length*100)+"%";
+  $("progressText").textContent=claimed+" of "+items.length+" covered";
+  CATS.forEach(cat=>{
+    const group=items.filter(i=>(i.category||"Other")===cat).sort((a,b)=>(a.order??999)-(b.order??999)||String(a.name).localeCompare(b.name));
+    if(!group.length)return;
+    const sec=document.createElement("section");const h=document.createElement("h2");h.textContent=cat;sec.appendChild(h);
+    const ul=document.createElement("ul");
+    group.forEach(it=>{
+      const li=document.createElement("li");
+      const d=document.createElement("div");d.className="item";
+      const b=document.createElement("b");b.textContent=it.slot?(it.claimedBy&&it.dish?it.dish:(it.slotLabel||"Open dessert slot")):it.name;d.appendChild(b);
+      if(it.slot&&!it.claimedBy){const s=document.createElement("small");s.textContent=it.slotHint||"Bring any dessert you like";d.appendChild(s)}
+      if(it.custom){const x=document.createElement("span");x.className="extra";x.textContent="added";d.appendChild(x)}
+      li.appendChild(d);
+      if(it.claimedBy){
+        const w=document.createElement("span");w.className="who";w.textContent="✓ "+it.claimedBy;li.appendChild(w);
+        const u=document.createElement("button");u.className="link";u.type="button";u.textContent=it.custom?"Remove":"Undo";
+        u.onclick=()=>send(it.custom?{action:"remove",id:it.id}:{action:"unclaim",id:it.id});li.appendChild(u);
+      }else if(openClaim===it.id){
+        const f=document.createElement("form");f.className="claim";
+        const inp=document.createElement("input");inp.id="claim-"+it.id;inp.placeholder="Your name";inp.maxLength=40;inp.required=true;inp.value=savedName();inp.setAttribute("aria-label","Your name for "+it.name);
+        let dishInp=null;
+        if(it.slot){dishInp=document.createElement("input");dishInp.id="dish-"+it.id;dishInp.placeholder=it.slotAsk||"What dessert?";dishInp.maxLength=60;dishInp.required=true;dishInp.setAttribute("aria-label",it.slotAsk||"What dessert?");f.appendChild(dishInp)}
+        const ok=document.createElement("button");ok.className="primary";ok.type="submit";ok.textContent="I'll bring it";
+        const c=document.createElement("button");c.className="link";c.type="button";c.textContent="Cancel";c.onclick=()=>{openClaim=null;render()};
+        f.append(inp,ok,c);
+        f.onsubmit=e=>{e.preventDefault();const n=inp.value.trim();const dish=dishInp?dishInp.value.trim():"";if(!n||(dishInp&&!dish))return;remember(n);openClaim=null;send({action:"claim",id:it.id,name:n,dish})};
+        li.appendChild(f);setTimeout(()=>(dishInp||inp).focus(),0);
+      }else{
+        const btn=document.createElement("button");btn.type="button";btn.textContent="Sign up";btn.disabled=busy;
+        btn.onclick=()=>{openClaim=it.id;render()};li.appendChild(btn);
+      }
+      ul.appendChild(li);
+    });
+    sec.appendChild(ul);list.appendChild(sec);
+  });
+}
+
+async function send(payload){
+  busy=true;
+  try{
+    const r=await fetch("/api/items",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    const data=await r.json().catch(()=>({}));
+    if(data.items)items=data.items;
+    showNote(r.ok?"":(data.error||"That didn't save. Try again."));
+    if(!r.ok&&r.status===409)refresh();
+  }catch(e){showNote("That didn't save. Check your connection and try again.")}
+  busy=false;render();
+}
+
+async function refresh(){
+  try{
+    const r=await fetch("/api/items",{cache:"no-store"});
+    const data=await r.json();
+    if(!r.ok){if(!loaded)$("list").innerHTML='<div class="status"></div>',$("list").firstChild.textContent=data.error||"The list couldn't load. Refresh to try again.";return}
+    items=data.items||[];loaded=true;
+    if(openClaim===null&&!busy)render();
+  }catch(e){if(!loaded){$("list").innerHTML='<div class="status">The list couldn\'t load. Refresh to try again.</div>'}}
+}
+
+$("addForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const name=$("newItem").value.trim(),who=$("newName").value.trim();if(!name||!who)return;
+  remember(who);$("addBtn").disabled=true;
+  await send({action:"add",name,category:catSel.value,who});
+  if(!$("note").textContent)$("newItem").value="";
+  $("addBtn").disabled=false;
+});
+
+refresh();
+setInterval(()=>{if(!document.hidden)refresh()},4000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)refresh()});
+</script>
+
+</body>
+</html>
